@@ -1,0 +1,16 @@
+/* App.css */
+
+.app-container {
+  height: 100dvh; /* Use dynamic viewport height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f6fa;
+}
+
+
+
+
+
+
+

@@ -31,7 +31,6 @@ const HomePage = () => {
             display: "flex",
             alignItems: "center",
             gap: "1rem",
-            cursor: "pointer",
             color: "#fff",
             position: "relative", // Needed for absolute positioning of the menu
           }}
@@ -57,25 +56,29 @@ const HomePage = () => {
                 padding: "0.5rem 0",
               }}
             >
-              <div style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>Profile</div>
-              <div style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>Logout</div>
+              <div style={{ padding: "0.5rem 1rem" }}>Profile</div>
+              <div style={{ padding: "0.5rem 1rem" ,textDecoration : "None"}}>          
+                <a
+            href="/"
+            style={{
+              textDecoration: "none",
+              color: "#1976d2",
+              width: "100%",
+            }}
+            onClick={() => {
+              localStorage.removeItem("username");
+              localStorage.removeItem("password");
+            }}
+          >
+            Logout
+          </a></div>
             </div>
           )}
         </div>
         
-        <nav>
-          <a
-            href="/"
-            style={{
-              color: "#fff",
-              textDecoration: "none",
-              marginLeft: "1rem",
-              fontWeight: "bold",
-            }}
-          >
-            Logo
-          </a>
-        </nav>
+<span style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
+           Logo
+          </span>
       </header>
       <div
         style={{

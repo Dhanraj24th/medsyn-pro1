@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 const HomePage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const username = localStorage.getItem("username") || "User";
@@ -17,6 +18,7 @@ const HomePage = () => {
         }}
       >
         <span style={{ fontWeight: "bold", fontSize: "1.1rem" }}>{username}</span>
+        <IconButton><MenuIcon></MenuIcon></IconButton>
         <nav>
           <a
             href="/"
@@ -31,7 +33,6 @@ const HomePage = () => {
           </a>
         </nav>
       </header>
-
       <div style={{ display: "flex", flex: 1, minHeight: 0, position: "relative" }}>
    <aside
     style={{

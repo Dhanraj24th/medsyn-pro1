@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const SIDEBAR_WIDTH = "30%"; 
-const HEADER_HEIGHT = 64;  
+const HEADER_HEIGHT = 54;  
 const FOOTER_HEIGHT = 40; 
 
 const HomePage = () => {
@@ -57,7 +57,7 @@ const HomePage = () => {
                 boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                 borderRadius: "6px",
                 minWidth: "140px",
-                zIndex: 500,
+                zIndex: 300,
                 padding: "0.5rem 0",
               }}
             >
@@ -79,8 +79,7 @@ const HomePage = () => {
           position: "fixed",
           top: HEADER_HEIGHT,
           left: 0,
-          width: sidebarOpen ? SIDEBAR_WIDTH : 0,
-      //    maxWidth: sidebarOpen ? "120px" : 0,
+          width: sidebarOpen ? `clamp(120px, ${SIDEBAR_WIDTH}, 250px)` : 0,
           height: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
           background: sidebarOpen ? "#e3eafc" : "transparent",
           color: "#1976d2",
@@ -108,8 +107,7 @@ const HomePage = () => {
           onClick={() => setSidebarOpen((open) => !open)}
           style={{
             position: "fixed",
-            left: sidebarOpen ? SIDEBAR_WIDTH : 0,
-           // maxWidth: sidebarOpen ? "120px" : 0,
+            left: sidebarOpen ? `clamp(120px, ${SIDEBAR_WIDTH}, 250px)` : 0,
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 200,
@@ -117,7 +115,7 @@ const HomePage = () => {
             color: "#fff",
             border: "none",
             borderRadius: "0 4px 4px 0",
-            padding: "0.25rem 0.5rem",
+            padding: "1rem 0.25rem",
             cursor: "pointer",
             transition: "left 0.3s, border-radius 0.3s",
           }}
@@ -128,25 +126,33 @@ const HomePage = () => {
         </button>
       )}
 
-      {/* Fixed Footer */}
-     
-
       {/* Main Content */}
       <main
-      style={{
-      left: sidebarOpen ? SIDEBAR_WIDTH : 0,
-      height: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
-      top: "64px",
-      bottom: "40px", 
-      padding: "1rem",
-      overflowY: "auto",
-      position: "fixed", 
-      }}
-       >
-      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to the Home Page</h1>
-      <p style={{ fontSize: "1.1rem", color: "#555" }}>
-      This is a simple home page layout with a fixed sidebar, header, and footer.
-      </p>
+        style={{
+          position: "fixed",
+          top: HEADER_HEIGHT,
+          left: sidebarOpen ? `clamp(120px, ${SIDEBAR_WIDTH}, 250px)` : 0,
+          right: 0,
+          bottom: FOOTER_HEIGHT,
+          padding: "1rem",
+          overflowY: "auto",
+          transition: "left 0.3s",
+          background: "#fff",
+        }}
+      >
+        <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to the Home Page</h1>
+        <p style={{ fontSize: "1.1rem", color: "#555" }}>
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer.
+        This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer. This is a simple home page layout with a fixed sidebar, header, and footer.
+        </p>
       </main>
        <footer
         style={{

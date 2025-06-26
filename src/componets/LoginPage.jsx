@@ -33,9 +33,6 @@ const LoginPage = () => {
           width: "100%",
         }}
       >
-        <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>
-            logo
-        </h1>
         <form
           onSubmit={handleSubmit}
           style={{

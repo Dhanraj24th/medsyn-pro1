@@ -1,29 +1,35 @@
 import React, { useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+
+const SIDEBAR_WIDTH = "30%"; // px
+const HEADER_HEIGHT = 64;  // px
+const FOOTER_HEIGHT = 40;  // px
+
 const HomePage = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const username = localStorage.getItem("username") || "User";
+  const [sidebarHovered, setSidebarHovered] = useState(false);
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        overflowX: "hidden", // Prevent horizontal scroll
-      }}
-    >
+    <div style={{ minHeight: "100vh" }}>
+      {/* Fixed Header */}
       <header
         style={{
+          position: "fixed",
+          top: 0,
+          left:    0,
+          right: 0,
+          height: HEADER_HEIGHT,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           padding: "0.5rem 2rem",
           background: "#1976d2",
           color: "#fff",
-          width: "100%",
+          transition: "left 0.3s",
+          zIndex: 102,
         }}
       >
         <div
@@ -32,7 +38,6 @@ const HomePage = () => {
             alignItems: "center",
             gap: "1rem",
             color: "#fff",
-            position: "relative", // Needed for absolute positioning of the menu
           }}
         >
           <span style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
@@ -45,119 +50,120 @@ const HomePage = () => {
             <div
               style={{
                 position: "absolute",
-                top: "2.5rem",
+                top: HEADER_HEIGHT,
                 left: 0,
                 background: "#fff",
                 color: "#1976d2",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                 borderRadius: "6px",
                 minWidth: "140px",
-                zIndex: 10,
+                zIndex: 500,
                 padding: "0.5rem 0",
               }}
             >
               <div style={{ padding: "0.5rem 1rem" }}>Profile</div>
-              <div style={{ padding: "0.5rem 1rem" ,textDecoration : "None"}}>          
-                <a
-            href="/"
-            style={{
-              textDecoration: "none",
-              color: "#1976d2",
-              width: "100%",
-            }}
-            onClick={() => {
-              localStorage.removeItem("username");
-              localStorage.removeItem("password");
-            }}
-          >
-            Logout
-          </a></div>
+              <div style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
+                <a href="/" style={{ textDecoration: "none", color: "#1976d2" }}>Logout</a>
+              </div>
             </div>
           )}
         </div>
-        
-<span style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
-           Logo
-          </span>
+        <span style={{ fontWeight: "bold", fontSize: "1.1rem" }}>
+          Logo
+        </span>
       </header>
+
+      {/* Fixed Sidebar */}
       <div
         style={{
-          display: "flex",
-          flex: 1,
-          minHeight: 0,
-          position: "relative",
-          width: "100%", // Ensure flex container doesn't overflow
+          position: "fixed",
+          top: HEADER_HEIGHT,
+          left: 0,
+          width: sidebarOpen ? SIDEBAR_WIDTH : 0,
+          height: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
+          background: sidebarOpen ? "#e3eafc" : "transparent",
+          color: "#1976d2",
+          fontWeight: "bold",
+          boxSizing: "border-box",
+          overflow: "hidden",
+          transition: "width 0.3s, background 0.3s",
+          zIndex: 100,
         }}
+        onMouseEnter={() => setSidebarHovered(true)}
+        onMouseLeave={() => setSidebarHovered(false)}
       >
-        <aside
-          style={{
-            width: sidebarOpen ? "20%" : "0", // Use vw for mobile
-            minWidth: sidebarOpen ? "120px" : "0",
-            maxWidth: sidebarOpen ? "300px" : "0",
-            background: sidebarOpen ? "#e3eafc" : "transparent",
-            padding: sidebarOpen ? "2rem 1rem" : "0",
-            color: "#1976d2",
-            fontWeight: "bold",
-            boxSizing: "border-box",
-            overflow: "hidden",
-            transition: "width 0.3s, padding 0.3s, background 0.3s",
-            position: "relative",
-          }}
-        >
-          {sidebarOpen && (
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              <li style={{ marginBottom: "1.5rem" }}>Dashboard</li>
-              <li style={{ marginBottom: "1.5rem" }}>Profile</li>
-              <li style={{ marginBottom: "1.5rem" }}>Settings</li>
-            </ul>
-          )}
-        </aside>
+        {sidebarOpen && (
+          <ul style={{ listStyle: "none", padding: "2rem 1rem", margin: 0 }}>
+            <li style={{ marginBottom: "1.5rem" }}>Dashboard</li>
+            <li style={{ marginBottom: "1.5rem" }}>Profile</li>
+            <li style={{ marginBottom: "1.5rem" }}>Settings</li>
+          </ul>
+        )}
+      </div>
+
+      {/* Sidebar Toggle Button */}
+      {(sidebarHovered || !sidebarOpen) && (
         <button
           onClick={() => setSidebarOpen((open) => !open)}
           style={{
-            position: "absolute",
-            left: sidebarOpen ? "clamp(120px, 20%, 300px)" : "0",
+            position: "fixed",
+            left: sidebarOpen ? SIDEBAR_WIDTH : 0,
             top: "50%",
             transform: "translateY(-50%)",
-            zIndex: 2,
+            zIndex: 200,
             background: "#1976d2",
             color: "#fff",
             border: "none",
-            borderRadius: sidebarOpen ? "0 4px 4px 0" : "4px",
+            borderRadius: "0 4px 4px 0",
             padding: "0.25rem 0.5rem",
             cursor: "pointer",
             transition: "left 0.3s, border-radius 0.3s",
           }}
+          onMouseEnter={() => setSidebarHovered(true)}
+          onMouseLeave={() => setSidebarHovered(false)}
         >
           {sidebarOpen ? "<" : ">"}
         </button>
-        <main
-          style={{
-            flex: 1,
-            padding: "2rem 1rem",
-            minWidth: 0, // Prevent overflow
-            boxSizing: "border-box",
-            width: "100%",
-          }}
-        >
-          <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to the Home Page</h1>
-          <p style={{ fontSize: "1.1rem", color: "#555" }}>
-              This is a simple home page layout with a sidebar and a header.
-          </p>
-        </main>
-      </div>
+      )}
+
+      {/* Fixed Footer */}
       <footer
         style={{
-          textAlign: "center",
-          padding: "0.3rem 0",
+          position: "fixed",
+          left: sidebarOpen ? SIDEBAR_WIDTH : 0,
+          right: 0,
+          bottom: 0,
+          height: FOOTER_HEIGHT,
           background: "#f5f6fa",
           color: "#888",
           fontSize: "0.95rem",
           fontWeight: "bold",
+          textAlign: "center",
+          zIndex: 100,
+          lineHeight: `${FOOTER_HEIGHT}px`,
+          transition: "left 0.3s",
         }}
       >
         &copy; {new Date().getFullYear()} footer
       </footer>
+
+      {/* Main Content */}
+      <main
+        style={{
+          marginLeft: sidebarOpen ? SIDEBAR_WIDTH : 0,
+          marginTop: HEADER_HEIGHT,
+          marginBottom: FOOTER_HEIGHT,
+          transition: "margin-left 0.3s",
+          padding: "2rem 1rem",
+          minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
+          overflowY: "auto",
+        }}
+      >
+        <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to the Home Page</h1>
+        <p style={{ fontSize: "1.1rem", color: "#555" }}>
+          This is a simple home page layout with a fixed sidebar, header, and footer.
+        </p>
+      </main>
     </div>
   );
 };

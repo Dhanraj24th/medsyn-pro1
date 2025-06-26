@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const SIDEBAR_WIDTH = "30%"; // px
-const HEADER_HEIGHT = 64;  // px
-const FOOTER_HEIGHT = 40;  // px
+const SIDEBAR_WIDTH = "30%"; 
+const HEADER_HEIGHT = 64;  
+const FOOTER_HEIGHT = 40; 
 
 const HomePage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,7 +13,7 @@ const HomePage = () => {
   const [sidebarHovered, setSidebarHovered] = useState(false);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: "100vh" , display: "flex", flexDirection: "column" }}>
       {/* Fixed Header */}
       <header
         style={{
@@ -80,6 +80,7 @@ const HomePage = () => {
           top: HEADER_HEIGHT,
           left: 0,
           width: sidebarOpen ? SIDEBAR_WIDTH : 0,
+      //    maxWidth: sidebarOpen ? "120px" : 0,
           height: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
           background: sidebarOpen ? "#e3eafc" : "transparent",
           color: "#1976d2",
@@ -108,6 +109,7 @@ const HomePage = () => {
           style={{
             position: "fixed",
             left: sidebarOpen ? SIDEBAR_WIDTH : 0,
+           // maxWidth: sidebarOpen ? "120px" : 0,
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 200,
@@ -127,10 +129,29 @@ const HomePage = () => {
       )}
 
       {/* Fixed Footer */}
-      <footer
+     
+
+      {/* Main Content */}
+      <main
+      style={{
+      left: sidebarOpen ? SIDEBAR_WIDTH : 0,
+      height: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
+      top: "64px",
+      bottom: "40px", 
+      padding: "1rem",
+      overflowY: "auto",
+      position: "fixed", 
+      }}
+       >
+      <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to the Home Page</h1>
+      <p style={{ fontSize: "1.1rem", color: "#555" }}>
+      This is a simple home page layout with a fixed sidebar, header, and footer.
+      </p>
+      </main>
+       <footer
         style={{
           position: "fixed",
-          left: sidebarOpen ? SIDEBAR_WIDTH : 0,
+          left:  0,
           right: 0,
           bottom: 0,
           height: FOOTER_HEIGHT,
@@ -142,28 +163,9 @@ const HomePage = () => {
           zIndex: 100,
           lineHeight: `${FOOTER_HEIGHT}px`,
           transition: "left 0.3s",
-        }}
-      >
+        }}>
         &copy; {new Date().getFullYear()} footer
       </footer>
-
-      {/* Main Content */}
-      <main
-        style={{
-          marginLeft: sidebarOpen ? SIDEBAR_WIDTH : 0,
-          marginTop: HEADER_HEIGHT,
-          marginBottom: FOOTER_HEIGHT,
-          transition: "margin-left 0.3s",
-          padding: "2rem 1rem",
-          minHeight: `calc(100vh - ${HEADER_HEIGHT + FOOTER_HEIGHT}px)`,
-          overflowY: "auto",
-        }}
-      >
-        <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to the Home Page</h1>
-        <p style={{ fontSize: "1.1rem", color: "#555" }}>
-          This is a simple home page layout with a fixed sidebar, header, and footer.
-        </p>
-      </main>
     </div>
   );
 };

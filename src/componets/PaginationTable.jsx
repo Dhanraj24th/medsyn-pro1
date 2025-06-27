@@ -1,11 +1,11 @@
 import React from 'react';
 
-export const PaginationTable = ({ userData }) => {
+export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
     const [currentPage, setCurrentPage] = React.useState(1);
     const [searchTerm, setSearchTerm] = React.useState("");
     const [selected, setSelected] = React.useState("id");
     const pageSize = 10;
-
+  console.log("limit",limit, "skip", skip, "total", total);
     // Filtered data
     const filteredData = React.useMemo(() => {
         if (!searchTerm) return userData;
@@ -36,7 +36,7 @@ export const PaginationTable = ({ userData }) => {
 
     // Pagination buttons logic
     const getPageButtons = () => {
-        if (pageCount <= 5) return Array.from({ length: pageCount }, (_, i) => i + 1);
+        if (pageCount <= 5) return Array.from({ length: pageCount }, (_, i) => (skip/10) +i  + 1);
         if (currentPage <= 3) return [1, 2, 3, 4, '...', pageCount];
         if (currentPage >= pageCount - 2) return [1, '...', pageCount - 3, pageCount - 2, pageCount - 1, pageCount];
         return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', pageCount];
@@ -95,15 +95,21 @@ export const PaginationTable = ({ userData }) => {
                         )}
                     </tbody>
                 </table>
-                {pageCount > 1 && (
+               
                     <div style={{ padding: '8px', textAlign: 'center', color: '#888' }}>
-                        {pageButtons.map((button, idx) => {
+                        <button style={{ margin: '0 4px', padding: '6px 12px', borderRadius: '4px', border: '1px solid #ddd', background: '#f5f6fa', cursor: 'pointer'}} 
+      onClick={() => {
+        if (skip - limit >= 0) {
+          setSkip((skip ) => skip - limit);
+        }
+      }} >prev</button>
+                     { (pageCount > 1) && pageButtons.map((button, idx) => {
                             if (button === '...') {
                                 return <span key={`ellipsis-${idx}`} style={{ margin: '0 6px' }}>...</span>;
-                            }
+                            }                        
                             return (
                                 <button
-                                    key={`page-${button}`}
+                                    key={`page-${idx+1}`}
                                     style={{
                                         margin: '0 4px',
                                         padding: '6px 12px',
@@ -111,19 +117,21 @@ export const PaginationTable = ({ userData }) => {
                                         border: '1px solid #ddd',
                                         background: '#f5f6fa',
                                         cursor: 'pointer',
-                                        color: currentPage === button ? '#1976d2' : '#555',
-                                        fontWeight: currentPage === button ? 'bold' : 'normal',
+                                        color: currentPage === idx+1 ? '#1976d2' : '#555',
+                                        fontWeight: currentPage === idx+1 ? 'bold' : 'normal',
                                     }}
-                                    onClick={() => handlePagination(button)}
-                                    disabled={currentPage === button}
+                                    onClick={() => handlePagination(idx+1)}
+                                    disabled={currentPage === idx+1}
                                 >
                                     {button}
                                 </button>
                             );
                         })}
+                        <button style={{ margin: '0 4px', padding: '6px 12px', borderRadius: '4px', border: '1px solid #ddd', background: '#f5f6fa' , cursor: 'pointer'}}  onClick={() => { if(total > skip && ((skip+50) < total)) { setSkip((skip) => skip + 50);} }}>Next</button>                                   
+                        <span style={{ padding : '6px 12px' }}>total : {total}</span>
                     </div>
-                )}
             </div>
         </>
     );
 };
+ 

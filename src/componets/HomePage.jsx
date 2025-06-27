@@ -12,6 +12,8 @@ const FOOTER_HEIGHT = 40;
 
 const HomePage = ({logo}) => {
   const navigate = useNavigate();
+  const [limit, setLimit] = useState(50);
+  const [skip, setSkip] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const username = localStorage.getItem("username") || "User";
@@ -23,10 +25,10 @@ const HomePage = ({logo}) => {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    axios.get("https://dummyjson.com/users")
+    axios.get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&select=firstName,lastName,email`)
       .then((res) => {
         if (res.status === 200) {
-          setUserData(res?.data?.users || []);
+          setUserData(res?.data || []);
         }
         setLoading(false);
       })
@@ -34,7 +36,7 @@ const HomePage = ({logo}) => {
         setError("Failed to fetch user data");
         setLoading(false);
       });
-  }, []);
+  }, [limit,skip]);
 
   return (
     <>
@@ -155,7 +157,7 @@ const HomePage = ({logo}) => {
           ) : error ? (
             <div style={{ color: "red" }}>{error}</div>
           ) : (
-            <PaginationTable userData={userData} />
+            <PaginationTable userData={userData?.users} total={userData?.total} setLimit={setLimit} setSkip= {setSkip} limit ={limit} skip = {skip} />
           )}
         </main>
         {/* Fixed Footer */}

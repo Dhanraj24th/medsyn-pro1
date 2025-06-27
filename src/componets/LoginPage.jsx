@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({logo}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const LoginPage = () => {
           alignItems: "center",
           width: "100%",
         }}
-      >
+      ><h2 style={{ textAlign: "center", marginBottom: "1rem" }}>{logo}</h2>
         <form
           onSubmit={handleSubmit}
           style={{

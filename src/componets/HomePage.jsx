@@ -22,10 +22,12 @@ const HomePage = ({logo}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+   const USERS_API = import.meta.env.VITE_USERS_API;
+// console.log("USERS_API:", USERS_API);
   useEffect(() => {
     setLoading(true);
     setError(null);
-    axios.get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&select=firstName,lastName,email`)
+    axios.get(`${USERS_API}?limit=${limit}&skip=${skip}&select=firstName,lastName,email`)
       .then((res) => {
         if (res.status === 200) {
           setUserData(res?.data || []);
@@ -36,7 +38,7 @@ const HomePage = ({logo}) => {
         setError("Failed to fetch user data");
         setLoading(false);
       });
-  }, [limit,skip]);
+  }, [limit, skip]);
 
   return (
     <>

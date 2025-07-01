@@ -1,4 +1,5 @@
 import React from 'react';
+import { thStyle, sortButtonStyle, tdStyle, paginationButtonStyle } from './paginationTableStyles';
 
 export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -6,8 +7,7 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
     const [selected, setSelected] = React.useState("id");
     const [sortOrder, setSortOrder] = React.useState({});
     const pageSize = 10;
- // console.log("limit",limit, "skip", skip, "total", total);
-    // Filtered data
+    
     const filteredData = React.useMemo(() => {
         if (!searchTerm) return userData;
         const term = searchTerm.toLowerCase();
@@ -27,28 +27,24 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
     }, [searchTerm, selected, userData]);
 
     const pageCount = Math.ceil((filteredData.length || 0) / pageSize);
-        const sortData = React.useMemo(() => {
-        if (sortOrder && Object.keys(sortOrder).length > 0) {
+     const sortData = React.useMemo(() => {
+    if (sortOrder && Object.keys(sortOrder).length > 0) {
     const [key, order] = Object.entries(sortOrder)[0];
     return [...filteredData].sort((a, b) => {
       let aValue = a[key];
       let bValue = b[key];
 
-      // Special handling for name
+
       if (key === "name") {
         aValue = `${a.firstName ?? ""} ${a.lastName ?? ""}`.trim();
         bValue = `${b.firstName ?? ""} ${b.lastName ?? ""}`.trim();
       }
 
-      // Use localeCompare for strings, subtraction for numbers
+     
       if (typeof aValue === "string" && typeof bValue === "string") {
-        return order === "asc"
-          ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue);
+        return order === "asc" ? aValue.localeCompare(bValue)  : bValue.localeCompare(aValue);
       } else {
-        return order === "asc"
-          ? aValue - bValue
-          : bValue - aValue;
+        return order === "asc"  ? aValue - bValue : bValue - aValue;
       }
     });
   }
@@ -96,17 +92,10 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ position: 'sticky', top: 0, background: '#f5f6fa', zIndex: 1 }}>
     <tr>
-        <th style={{ borderBottom: '2px solid #ddd', padding: '8px', background: '#f5f6fa', position: 'sticky', top: 0 }}>
+        <th style={thStyle}>
             ID
             <button
-                style={{
-                    marginLeft: 6,
-                    border: "none",
-                    background: "transparent",
-                    cursor: "pointer",
-                    color: sortOrder?.id ? "#1976d2" : "#888",
-                    fontWeight: sortOrder?.id ? "bold" : "normal"
-                }}
+                style={sortButtonStyle(!!sortOrder?.id)}
                 onClick={() =>
                     setSortOrder(prev =>
                         prev?.id === "asc" ? { id: "desc" } : { id: "asc" }
@@ -116,17 +105,10 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
                 {sortOrder?.id === "asc" ? "▲" : "▼"}
             </button>
         </th>
-        <th style={{ borderBottom: '2px solid #ddd', padding: '8px', background: '#f5f6fa', position: 'sticky', top: 0 }}>
+        <th style={thStyle}>
             Name
             <button
-                style={{
-                    marginLeft: 6,
-                    border: "none",
-                    background: "transparent",
-                    cursor: "pointer",
-                    color: sortOrder?.name ? "#1976d2" : "#888",
-                    fontWeight: sortOrder?.name ? "bold" : "normal"
-                }}
+                style={sortButtonStyle(!!sortOrder?.name)}
                 onClick={() =>
                     setSortOrder(prev =>
                         prev?.name === "asc" ? { name: "desc" } : { name: "asc" }
@@ -136,17 +118,10 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
                 {sortOrder?.name === "asc" ? `▲` : `▼`}
             </button>
         </th>
-        <th style={{ borderBottom: '2px solid #ddd', padding: '8px', background: '#f5f6fa', position: 'sticky', top: 0 }}>
+        <th style={thStyle}>
             Email
             <button
-                style={{
-                    marginLeft: 6,
-                    border: "none",
-                    background: "transparent",
-                    cursor: "pointer",
-                    color: sortOrder?.email ? "#1976d2" : "#888",
-                    fontWeight: sortOrder?.email ? "bold" : "normal"
-                }}
+                style={sortButtonStyle(!!sortOrder?.email)}
                 onClick={() =>
                     setSortOrder(prev =>
                         prev?.email === "asc" ? { email: "desc" } : { email: "asc" }
@@ -162,15 +137,15 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
                         {paginatedData && paginatedData.length > 0 ? (
                             paginatedData.map((user) => (
                                 <tr key={user.id}>
-                                    <td style={{ borderBottom: '1px solid #ddd', padding: '8px', textAlign: "center" }}>{user.id ?? '-'}</td>
-                                    <td style={{ borderBottom: '1px solid #ddd', padding: '8px', textAlign: "center" }}>
+                                    <td style={tdStyle}>{user.id ?? '-'}</td>
+                                    <td style={tdStyle}>
                                         {user.firstName || user.lastName
                                             ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
                                             : user.name || '-'}
                                     </td>
-                                    <td style={{ borderBottom: '1px solid #ddd', padding: '8px', textAlign: "center" }}>{user.email ?? '-'}</td>
+                                    <td style={tdStyle}>{user.email ?? '-'}</td>
                                 </tr>
-                            ))
+                           ))
                         ) : (
                             <tr>
                                 <td colSpan={3} style={{ textAlign: 'center', padding: '16px', color: '#888' }}>
@@ -181,7 +156,7 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
                     </tbody>
                 </table>
                
-                    <div style={{ padding: '8px', textAlign: 'center', color: '#888' }}>
+                <div style={{ padding: '8px', textAlign: 'center', color: '#888' }}>
                         <button style={{ margin: '0 4px', padding: '6px 12px', borderRadius: '4px', border: '1px solid #ddd', background: '#f5f6fa', cursor: 'pointer'}} 
                 onClick={() => {
                 if (skip - limit >= 0) {
@@ -195,24 +170,15 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
                             return (
                                 <button
                                     key={`page-${idx+1}`}
-                                    style={{
-                                        margin: '0 4px',
-                                        padding: '6px 12px',
-                                        borderRadius: '4px',
-                                        border: '1px solid #ddd',
-                                        background: '#f5f6fa',
-                                        cursor: 'pointer',
-                                        color: currentPage === idx+1 ? '#1976d2' : '#555',
-                                        fontWeight: currentPage === idx+1 ? 'bold' : 'normal',
-                                    }}
-                                    onClick={() => handlePagination(idx+1)}
+                                    style={paginationButtonStyle(currentPage === idx+1)}
                                     disabled={currentPage === idx+1}
+                                    onClick={() => handlePagination(idx+1)}
                                 >
                                     {button}
                                 </button>
                             );
                         }) }
-                        <button style={{ margin: '0 4px', padding: '6px 12px', borderRadius: '4px', border: '1px solid #ddd', background: '#f5f6fa' , cursor: 'pointer'}}  onClick={() => { if(total > skip && ((skip+50) < total)) { setSkip((skip) => skip + 50);} }}>Next</button>                                   
+                        <button style={{ margin: '0 4px', padding: '6px 12px', borderRadius: '4px', border: '1px solid #ddd', background: '#f5f6fa' , cursor: 'pointer'}} onClick={() => { if(total > skip && ((skip+50) < total)) { setSkip((skip) => skip + 50);} }}>Next</button>                                   
                         <span style={{ padding : '6px 12px' }}>total : {total}</span>
                     </div>
             </div>

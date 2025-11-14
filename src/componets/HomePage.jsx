@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { PaginationTable } from "./PaginationTable";
+// import { PaginationTable } from "./PaginationTable";
+import { MuiPaginationTable } from "./MuiPaginationTable";
 import {  useNavigate } from "react-router-dom";
 import { SidebarMenu } from "./SidebarMenu";
 
@@ -12,7 +13,7 @@ const FOOTER_HEIGHT = 40;
 
 const HomePage = ({logo}) => {
   const navigate = useNavigate();
-  const [limit, setLimit] = useState(50);
+  const [limit, setLimit] = useState(25);
   const [skip, setSkip] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,10 +23,12 @@ const HomePage = ({logo}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+   const USERS_API = import.meta.env.VITE_USERS_API;
+// console.log("USERS_API:", USERS_API);
   useEffect(() => {
     setLoading(true);
     setError(null);
-    axios.get(`https://dummyjson.com/users?limit=${limit}&skip=${skip}&select=firstName,lastName,email`)
+    axios.get(`${USERS_API}?limit=${limit}&skip=${skip}&select=firstName,lastName,email`)
       .then((res) => {
         if (res.status === 200) {
           setUserData(res?.data || []);
@@ -36,7 +39,7 @@ const HomePage = ({logo}) => {
         setError("Failed to fetch user data");
         setLoading(false);
       });
-  }, [limit,skip]);
+  }, [limit, skip]);
 
   return (
     <>
@@ -148,16 +151,13 @@ const HomePage = ({logo}) => {
           onMouseEnter={() => setSidebarHovered(false)}
           onMouseLeave={() => setSidebarHovered(true)}
         >
-          <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Welcome to the Home Page</h1>
-          <p style={{ fontSize: "1.1rem", color: "#555" }}>
-          This is a simple home page layout with a fixed sidebar, header, and footer.
-          </p>
+          
           {loading ? (
             <div>Loading...</div>
           ) : error ? (
             <div style={{ color: "red" }}>{error}</div>
           ) : (
-            <PaginationTable userData={userData?.users} total={userData?.total} setLimit={setLimit} setSkip= {setSkip} limit ={limit} skip = {skip} />
+            <MuiPaginationTable userData={userData?.users} total={userData?.total} setLimit={setLimit} setSkip= {setSkip} limit ={limit} skip = {skip} />
           )}
         </main>
         {/* Fixed Footer */}

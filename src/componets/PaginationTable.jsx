@@ -82,16 +82,16 @@ export const PaginationTable = ({ userData, setSkip, skip,limit,total }) => {
                     type="text"
                     placeholder="Search..."
                     style={{ marginLeft: '8px', padding: "0.7rem", borderRadius: "6px", 
-                        border: "1px solid #ccc", fontSize: "1rem" , flexShrink: 1, minWidth: "50px", maxWidth:"150px" }} 
+                        border:"none", fontSize: "1rem" , flexShrink: 1, minWidth: "50px", maxWidth:"150px" ,outline: "none",}} 
                     onChange={(e) => setSearchTerm(e.target.value)}
                     value={searchTerm}
                 />
             </div>
 
-            <div style={{ maxHeight: '350px', overflowY: 'auto', border: '1px solid #eee', borderRadius: '8px' }}>
+            <div style={{border: '1px solid #eee', borderRadius: '8px' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead style={{ position: 'sticky', top: 0, background: '#f5f6fa', zIndex: 1 }}>
-    <tr>
+            <tr>
         <th style={thStyle}>
             ID
             <button
